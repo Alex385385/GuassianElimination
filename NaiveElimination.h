@@ -11,7 +11,7 @@ class NaiveElimination {
 public:
     NaiveElimination();
 
-    void FwdElimination(std::vector<std::vector<float>>& coeff, std::vector<float>& constt, int n);
+    void FwdElimination(std::vector<std::vector<float>> &coeff, std::vector<float> &constt, int n);
 
     void BackSubst(std::vector<std::vector<float>> coeff, std::vector<float> constt, std::vector<float> &sol, int n);
 
