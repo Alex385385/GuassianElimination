@@ -13,7 +13,7 @@ public:
 
     virtual ~ScaledPartialPivot();
 
-    void SSPFwdElimination(std::vector<std::vector<float>> &coeff, std::vector<float> &constt, std::vector<int> ind, int n);
+    void SSPFwdElimination(std::vector<std::vector<float>> &coeff, std::vector<float> &constt, std::vector<int> &ind, int n);
 
     void SSPBackSubst(std::vector<std::vector<float>> coeff, std::vector<float> constt, std::vector<float> &sol, std::vector<int> ind, int n);
 
