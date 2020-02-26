@@ -15,7 +15,7 @@ ScaledPartialPivot::~ScaledPartialPivot() {
 
 void ScaledPartialPivot::SSPFwdElimination(vector<vector<float>> &coeff, vector<float> &constt, vector<int> ind, int n) {
     vector<int> scaling(n);
-    for (int i = 0; i < n; ++i) {
+    for(int i = 0; i < n; ++i) {
         float smax = 0.0;
 
         for (int j = 0; j < n; ++j) {
@@ -23,52 +23,50 @@ void ScaledPartialPivot::SSPFwdElimination(vector<vector<float>> &coeff, vector<
         }
         scaling[i] = smax;
     }
-    for (int k = 0; k < n - 1; ++k) {
+    for(int k = 0; k < n - 1; ++k) {
         float rmax = 0.0;
         int maxInd = k;
 
-        for (int i = k; i < n; ++i) {
+        for(int i = k; i < n; ++i) {
             float r = coeff[ind[i]][k] / scaling[ind[i]];
             if (r > rmax) {
                 rmax = r;
                 maxInd = i;
             }
         }
+        swap(ind[maxInd], ind[k]);
 
+        for(int i = k + 1; i < n; ++i) {
+            float mult = coeff[ind[i]][k] / coeff[ind[k]][k];
+            for(int j = k + 1; j < n; ++j) {
+                coeff[ind[i]][j] = coeff[ind[i]][j] - mult * coeff[ind[k]][j];
+            }
+
+            constt[ind[i]] = constt[ind[i]] - mult * constt[ind[k]];
+        }
+    }
+}
+
+void ScaledPartialPivot::SSPBackSubst(vector<vector<float>> coeff, vector<float> constt, vector<float> &sol, vector<int> ind, int n) {
+    sol[n-1] = constt[ind[n - 1]] / coeff[ind[n - 1]][n - 1];
+    for(int i = n-1; i > -1; i--) {
+        float sum = constt[ind[i]];
+        for(int j = i + 1; i < n; i++) {
+            sum = sum - coeff[ind[i]][j] * sol[j];
+        }
+        sol[i] = sum / coeff[ind[i]][i];
     }
 }
 
 /*
- * function SPPFwdElimination(coeff : array(n,n), const : vector(n), ind : vector(n))
-  scaling := new vector(n) // vector of scaling factors
-
-  for k <- 1 to n - 1
-    rmax := 0
-    maxInd := k
-
-    for i <- k to n
-      r := |coeff[ind[i]][k] / scaling[ind[i]]| // ratio of coefficient to scaling factor
-      if (r > rmax) then
-        rmax := r
-        maxInd := i
-      end if
+ * function SPPBackSubst(coeff : array(n,n), const : vector(n), sol : vector(n), ind : vector(n))
+  sol[n] := const[ind[n]] / coeff[ind[n]][n]
+  for i <- n - 1 to 1
+    sum := const[ind[i]]
+    for j <- i + 1 to n
+      sum := sum - coeff[ind[i]][j] * sol[j]
     end for
-    swap(ind[maxInd], ind[k])
-
-    for i <- k + 1 to n
-      mult := coeff[ind[i]][k] / coeff[ind[k]][k]
-
-      for j <- k + 1 to n
-        coeff[ind[i]][j] := coeff[ind[i]][j] - mult * coeff[ind[k]][j]
-      end for
-
-      const[ind[i]] := const[ind[i]] - mult * const[ind[k]]
-    end for
+    sol[i] := sum / coeff[ind[i]][i]
   end for
 end function
  */
-
-
-void ScaledPartialPivot::SSPBackSubst(vector<vector<float>> coeff, vector<float> constt, vector<float> &sol, vector<int> ind, int n) {
-
-}
