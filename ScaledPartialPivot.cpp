@@ -13,7 +13,7 @@ ScaledPartialPivot::~ScaledPartialPivot() {
 
 }
 
-void ScaledPartialPivot::SSPFwdElimination(vector<vector<float>> &coeff, vector<float> &constt, vector<int> &ind, int n) {
+void ScaledPartialPivot::SPPFwdElimination(vector<vector<float>> &coeff, vector<float> &constt, vector<int> &ind, int n) {
     vector<int> scaling(n);
     for(int i = 0; i < n; ++i) {
         float smax = 0.0;
@@ -47,7 +47,7 @@ void ScaledPartialPivot::SSPFwdElimination(vector<vector<float>> &coeff, vector<
     }
 }
 
-void ScaledPartialPivot::SSPBackSubst(vector<vector<float>> coeff, vector<float> constt, vector<float> &sol, vector<int> ind, int n) {
+void ScaledPartialPivot::SPPBackSubst(vector<vector<float>> coeff, vector<float> constt, vector<float> &sol, vector<int> ind, int n) {
     sol[n-1] = constt[ind[n - 1]] / coeff[ind[n - 1]][n - 1];
     for(int i = n-1; i > -1; i--) {
         float sum = constt[ind[i]];
@@ -56,4 +56,14 @@ void ScaledPartialPivot::SSPBackSubst(vector<vector<float>> coeff, vector<float>
         }
         sol[i] = sum / coeff[ind[i]][i];
     }
+}
+
+void ScaledPartialPivot::SPPGuassian(std::vector<std::vector<float>> coeff, std::vector<float> constt, std::vector<float> &sol, int n) {
+    vector<int> ind(n);
+    for(int i = 0; i < n; i++) {
+        ind[i] = i;
+    }
+
+    SPPFwdElimination(coeff, constt, ind, n);
+    SPPBackSubst(coeff, constt, sol, ind, n);
 }

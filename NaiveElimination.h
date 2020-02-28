@@ -15,7 +15,7 @@ public:
 
     void BackSubst(std::vector<std::vector<float>> coeff, std::vector<float> constt, std::vector<float> &sol, int n);
 
-
+    void naiveElimin(std::vector<std::vector<float>> coeff, std::vector<float> constt, std::vector<float> &sol, int n);
 
 };
 
