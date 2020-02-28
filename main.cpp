@@ -34,7 +34,7 @@ void writeFile(vector<float> sol, int n, string fileName) {
     string newFileName = fileName.substr(0,size);
     newFileName.append(".sol");
 
-    ofstream outputFile(fileName);
+    ofstream outputFile(newFileName);
     for(int i = 0; i < n; i++) {
         outputFile << setprecision (32) << sol[i] << " ";
     }
