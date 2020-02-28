@@ -4,6 +4,7 @@
 
 #include "ScaledPartialPivot.h"
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -19,7 +20,7 @@ void ScaledPartialPivot::SPPFwdElimination(vector<vector<float>> &coeff, vector<
         float smax = 0.0;
 
         for (int j = 0; j < n; ++j) {
-            smax = max(smax, coeff[i][j]);
+            smax = max(abs(smax), abs(coeff[i][j]));
         }
         scaling[i] = smax;
     }
